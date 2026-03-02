@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Vibe Music · Collapsible Mini Player</title>
     <style>
-        /* ========== PREMIUM DESIGN - PRESERVED ========== */
         * {
             margin: 0;
             padding: 0;
@@ -79,7 +78,6 @@
             position: relative;
         }
 
-        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -129,7 +127,6 @@
             66% { transform: translate(40px, -80px) scale(0.8); }
         }
 
-        /* Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -155,7 +152,6 @@
             100% { transform: translateY(-100px) translateX(100px) rotate(360deg); opacity: 0; }
         }
 
-        /* ==================== AUTH SECTION ==================== */
         #auth-section {
             display: flex;
             justify-content: center;
@@ -301,7 +297,6 @@
             border-radius: 30px;
         }
 
-        /* ==================== MAIN APP ==================== */
         #main-app {
             display: none;
             animation: fadeInUp 0.8s ease-out;
@@ -364,7 +359,6 @@
             color: white;
         }
 
-        /* Search */
         .search-section {
             margin-bottom: 20px;
         }
@@ -399,7 +393,6 @@
             box-shadow: 0 0 25px var(--accent-glow);
         }
 
-        /* Section Headers */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -438,7 +431,6 @@
             text-decoration: none;
         }
 
-        /* Song Grid */
         .songs-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -547,7 +539,6 @@
             border: 1px solid var(--accent-primary);
         }
 
-        /* Lyrics Section */
         .lyrics-section {
             background: var(--bg-card);
             border-radius: 30px;
@@ -584,7 +575,6 @@
             box-shadow: 0 10px 25px var(--accent-glow);
         }
 
-        /* Stats Section */
         .stats-section {
             background: var(--bg-card);
             border-radius: 30px;
@@ -638,8 +628,6 @@
             font-size: 12px;
         }
 
-        /* ==================== COLLAPSIBLE MINI PLAYER ==================== */
-        /* Style na gaya ng nasa image - pwedeng i-minimize */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -655,7 +643,6 @@
             overflow: hidden;
         }
 
-        /* Mini player style (collapsed) - parang nasa image */
         .music-player.minimized {
             width: auto;
             max-width: 200px;
@@ -689,7 +676,6 @@
             display: none;
         }
 
-        /* Maximized player (full controls) */
         .music-player.maximized {
             padding: 15px;
         }
@@ -699,7 +685,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            padding-right: 40px; /* space for toggle button */
+            padding-right: 40px;
         }
 
         .music-player.maximized .now-playing-title {
@@ -812,7 +798,6 @@
             box-shadow: 0 0 8px var(--accent-glow);
         }
 
-        /* Minimize/Maximize Toggle Button */
         .mini-toggle {
             position: absolute;
             top: 15px;
@@ -835,7 +820,6 @@
             background: var(--accent-glow);
         }
 
-        /* Lyrics Toggle */
         .lyrics-toggle {
             position: fixed;
             bottom: 100px;
@@ -861,7 +845,6 @@
             border: 2px solid var(--accent-primary);
         }
 
-        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -883,7 +866,6 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -895,7 +877,6 @@
             border-radius: 4px;
         }
 
-        /* Responsive */
         @media (max-width: 360px) {
             .songs-grid {
                 grid-template-columns: 1fr;
@@ -907,7 +888,6 @@
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
     <div class="animated-bg">
         <div class="gradient-sphere"></div>
         <div class="gradient-sphere-2"></div>
@@ -915,7 +895,6 @@
     <div class="particles" id="particles"></div>
 
     <div id="app">
-        <!-- Auth Section -->
         <div id="auth-section">
             <div class="auth-container">
                 <h2>VIBE MUSIC</h2>
@@ -924,7 +903,6 @@
                     <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
                 </div>
                 
-                <!-- Login Form -->
                 <div id="login-form" class="auth-form active">
                     <div class="form-group">
                         <label>📧 Email</label>
@@ -944,7 +922,6 @@
                     <div id="login-error" class="error-message"></div>
                 </div>
 
-                <!-- Register Form -->
                 <div id="register-form" class="auth-form">
                     <div class="form-group">
                         <label>👤 Full Name</label>
@@ -973,9 +950,7 @@
             </div>
         </div>
 
-        <!-- Main App Section -->
         <div id="main-app">
-            <!-- Premium Header -->
             <header class="app-header">
                 <div class="app-title">
                     <h1>VIBE MUSIC</h1>
@@ -991,7 +966,6 @@
                 </div>
             </header>
 
-            <!-- Search Section -->
             <div class="search-section">
                 <div class="search-wrapper">
                     <span class="search-icon">🔍</span>
@@ -999,7 +973,6 @@
                 </div>
             </div>
 
-            <!-- Music Library -->
             <div class="library-section">
                 <div class="section-header">
                     <h3 class="section-title">🎵 Music Library</h3>
@@ -1008,7 +981,6 @@
                 <div id="songs-container" class="songs-grid"></div>
             </div>
 
-            <!-- Playlist Section -->
             <div class="playlist-section">
                 <div class="section-header">
                     <h3 class="section-title">📋 My Playlist</h3>
@@ -1017,7 +989,6 @@
                 <div id="playlist-container" class="songs-grid"></div>
             </div>
 
-            <!-- Lyrics Section -->
             <div id="lyrics-section" class="lyrics-section" style="display: none;">
                 <div class="section-header">
                     <h3 class="section-title">📝 Lyrics</h3>
@@ -1027,7 +998,6 @@
                 </div>
             </div>
 
-            <!-- Offline Section -->
             <div class="offline-section">
                 <div class="section-header">
                     <h3 class="section-title">📥 Saved Offline</h3>
@@ -1036,7 +1006,6 @@
                 <div id="offline-container" class="songs-grid"></div>
             </div>
 
-            <!-- Stats Section -->
             <div class="stats-section">
                 <div class="section-header">
                     <h3 class="section-title">📊 Artist Statistics</h3>
@@ -1058,17 +1027,13 @@
                 <div id="artist-ranking" class="artist-list"></div>
             </div>
 
-            <!-- Audio Player -->
             <audio id="audio-player" preload="metadata" style="display: none;"></audio>
 
-            <!-- Lyrics Toggle -->
             <button class="lyrics-toggle" onclick="toggleLyrics()" id="lyrics-toggle-btn">
                 <span>📜</span> Show Lyrics
             </button>
 
-            <!-- COLLAPSIBLE MUSIC PLAYER - gaya ng nasa image -->
             <div class="music-player maximized" id="music-player">
-                <!-- Minimize/Maximize Button -->
                 <button class="mini-toggle" onclick="togglePlayerSize()" id="toggle-player-btn">🔼</button>
                 
                 <div class="player-info">
@@ -1101,7 +1066,6 @@
     </div>
 
     <script>
-        // Create particles
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             if (!particlesContainer) return;
@@ -1120,7 +1084,6 @@
         }
         createParticles();
 
-        // SONGS DATA with complete lyrics
         const SONGS = [
             { 
                 filename: 'uptown-funk.mp3',
@@ -1247,7 +1210,6 @@
             }
         ];
 
-        // ==================== STATE ====================
         let currentUser = null;
         let currentSongIndex = 0;
         let isPlaying = false;
@@ -1259,7 +1221,6 @@
         let isPlayerMinimized = false;
         const audio = document.getElementById('audio-player');
 
-        // ==================== PLAYER SIZE TOGGLE ====================
         window.togglePlayerSize = () => {
             const player = document.getElementById('music-player');
             const toggleBtn = document.getElementById('toggle-player-btn');
@@ -1269,26 +1230,23 @@
             if (isPlayerMinimized) {
                 player.classList.remove('maximized');
                 player.classList.add('minimized');
-                toggleBtn.innerHTML = '🔽'; // Down arrow to maximize
+                toggleBtn.innerHTML = '🔽';
             } else {
                 player.classList.remove('minimized');
                 player.classList.add('maximized');
-                toggleBtn.innerHTML = '🔼'; // Up arrow to minimize
+                toggleBtn.innerHTML = '🔼';
             }
         };
 
-        // Click on minimized player to maximize
         document.addEventListener('click', function(e) {
             const player = document.getElementById('music-player');
             if (isPlayerMinimized && player.contains(e.target) && !e.target.classList.contains('mini-toggle')) {
-                // If clicked on minimized player (not the toggle button), maximize it
                 if (isPlayerMinimized) {
                     togglePlayerSize();
                 }
             }
         });
 
-        // ==================== AUTH FUNCTIONS ====================
         window.switchAuthTab = (tab) => {
             document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
@@ -1389,7 +1347,6 @@
             updateStats();
         }
 
-        // ==================== RENDER FUNCTIONS ====================
         function renderSongs() {
             const container = document.getElementById('songs-container');
             const filteredSongs = SONGS.filter(song => 
@@ -1434,7 +1391,6 @@
             showNotification('Showing all songs');
         };
 
-        // ==================== PLAYLIST ====================
         window.addToPlaylist = (songIndex) => {
             const playlist = JSON.parse(localStorage.getItem(`playlist_${currentUser.email}`) || '[]');
             
@@ -1487,7 +1443,6 @@
             showNotification(playlist.length ? `You have ${playlist.length} songs` : 'Playlist empty');
         };
 
-        // ==================== OFFLINE ====================
         window.toggleOffline = (songIndex) => {
             const offlineSongs = JSON.parse(localStorage.getItem(`offline_${currentUser.email}`) || '[]');
             
@@ -1535,7 +1490,6 @@
             showNotification(offline.length ? `${offline.length} offline songs` : 'No offline songs');
         };
 
-        // ==================== MUSIC PLAYER ====================
         window.playSong = (index) => {
             if (!currentUser) return;
             
@@ -1551,7 +1505,6 @@
                 document.getElementById('current-song-title').textContent = song.title;
                 document.getElementById('current-song-artist').textContent = song.artist;
                 
-                // Update mini player title din
                 document.querySelector('.music-player.minimized .now-playing-title').textContent = song.title;
                 
                 if (showLyrics) {
@@ -1632,7 +1585,6 @@
             audio.currentTime = clickPosition * audio.duration;
         };
 
-        // Audio event listeners
         audio.addEventListener('timeupdate', () => {
             if (audio.duration) {
                 const progress = (audio.currentTime / audio.duration) * 100;
@@ -1662,7 +1614,6 @@
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
-        // ==================== LYRICS ====================
         window.toggleLyrics = () => {
             const lyricsSection = document.getElementById('lyrics-section');
             const lyricsBtn = document.getElementById('lyrics-toggle-btn');
@@ -1745,7 +1696,6 @@
             });
         }
 
-        // ==================== STATS ====================
         function updateListeningStats(songIndex) {
             const stats = JSON.parse(localStorage.getItem(`stats_${currentUser.email}`) || '{"totalListens":0,"artistPlays":{},"listeningTime":0}');
             
@@ -1792,7 +1742,6 @@
                 `).join('');
         }
 
-        // ==================== THEME ====================
         window.toggleTheme = () => {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme') || 'dark';
@@ -1803,7 +1752,6 @@
             showNotification(`🎨 ${newTheme} mode activated`);
         };
 
-        // ==================== NOTIFICATION ====================
         function showNotification(message) {
             const notification = document.createElement('div');
             notification.className = 'notification';
@@ -1816,14 +1764,12 @@
             }, 2500);
         }
 
-        // ==================== DATA LOADING ====================
         function loadUserData() {
             renderPlaylist();
             renderOfflineSongs();
             updateStats();
         }
 
-        // ==================== INIT ====================
         function init() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
@@ -1836,7 +1782,6 @@
                 showMainApp();
             }
             
-            // Track listening time every second
             setInterval(() => {
                 if (currentUser && isPlaying) {
                     const stats = JSON.parse(localStorage.getItem(`stats_${currentUser.email}`) || '{"totalListens":0,"artistPlays":{},"listeningTime":0}');
@@ -1846,7 +1791,6 @@
                 }
             }, 1000);
             
-            // Set initial volume
             audio.volume = 0.7;
         }
 
