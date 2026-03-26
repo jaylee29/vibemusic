@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Vibe Music | Complete Lyrics Experience</title>
+    <title>Vibe Music | CloudPlay Theme</title>
     <style>
         * {
             margin: 0;
@@ -13,6 +13,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* DARK THEME (Default) */
         :root {
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
@@ -34,8 +35,10 @@
             --player-bg: rgba(18, 18, 26, 0.98);
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             --hover-shadow: 0 20px 40px rgba(138, 43, 226, 0.3);
+            --header-gradient: linear-gradient(135deg, #8a2be2, #4a00e0);
         }
 
+        /* LIGHT THEME */
         [data-theme="light"] {
             --bg-primary: #f0f2f5;
             --bg-secondary: #ffffff;
@@ -57,7 +60,44 @@
             --player-bg: rgba(255, 255, 255, 0.98);
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --hover-shadow: 0 20px 40px rgba(138, 43, 226, 0.15);
+            --header-gradient: linear-gradient(135deg, #8a2be2, #6f42c1);
         }
+
+/* CLOUDPLAY PURPLE NEON THEME */
+[data-theme="cloudplay"] {
+    --bg-primary: #1a0033;
+    --bg-secondary: #2a0050;
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --bg-card-hover: rgba(255, 255, 255, 0.08);
+
+    --text-primary: #f3e8ff;
+    --text-secondary: #d8b4fe;
+
+    --accent-primary: #c084fc;
+    --accent-secondary: #a855f7;
+    --accent-tertiary: #9333ea;
+
+    --accent-glow: rgba(168, 85, 247, 0.6);
+    --accent-gradient: linear-gradient(135deg, #c084fc, #a855f7, #7e22ce);
+
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(168, 85, 247, 0.3);
+
+    --input-bg: rgba(255, 255, 255, 0.08);
+    --hover-bg: rgba(168, 85, 247, 0.15);
+
+    --lyrics-highlight: #c084fc;
+    --lyrics-bg: rgba(192, 132, 252, 0.15);
+
+    --player-bg: rgba(30, 0, 60, 0.85);
+
+    --card-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
+    --hover-shadow: 0 20px 50px rgba(168, 85, 247, 0.5);
+
+    --header-gradient: linear-gradient(135deg, #c084fc, #a855f7, #7e22ce);
+
+    backdrop-filter: blur(20px);
+}
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -169,7 +209,7 @@
             position: relative;
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4), 0 0 0 2px var(--accent-glow);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(138, 43, 226, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.3);
             z-index: 10;
         }
 
@@ -310,13 +350,13 @@
             border-radius: 30px;
             box-shadow: var(--card-shadow);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .app-title h1 {
             font-size: 32px;
             font-weight: 800;
-            background: var(--accent-gradient);
+            background: var(--header-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
@@ -336,6 +376,7 @@
             display: flex;
             justify-content: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .glass-btn {
@@ -441,7 +482,7 @@
             border-radius: 20px;
             padding: 15px;
             cursor: pointer;
-            border: 1px solid rgba(138, 43, 226, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.1);
             box-shadow: var(--card-shadow);
         }
 
@@ -478,7 +519,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(138, 43, 226, 0.8), rgba(74, 0, 224, 0.8));
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(96, 165, 250, 0.8));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -544,7 +585,7 @@
             padding: 20px;
             margin: 20px 0;
             box-shadow: var(--card-shadow);
-            border: 1px solid rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .lyrics-container {
@@ -555,7 +596,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Custom scrollbar for lyrics */
         .lyrics-container::-webkit-scrollbar {
             width: 6px;
         }
@@ -602,7 +642,7 @@
             padding: 25px;
             margin: 20px 0;
             box-shadow: var(--card-shadow);
-            border: 1px solid rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .stats-grid {
@@ -932,11 +972,11 @@
         <div id="main-app">
             <header class="app-header">
                 <div class="app-title">
-                    <h1>VIBE MUSIC</h1>
+                    <h1>☁️ VIBE MUSIC | CLOUDPLAY</h1>
                     <span class="welcome-badge" id="welcome-user"></span>
                 </div>
                 <div class="app-controls">
-                    <button class="glass-btn" onclick="toggleTheme()">🎨 Theme</button>
+                    <button class="glass-btn" onclick="cycleTheme()">🎨 Theme: <span id="theme-name">Dark</span></button>
                     <button class="glass-btn" onclick="handleLogout()">🚪 Logout</button>
                 </div>
             </header>
@@ -1175,6 +1215,24 @@
             }
         ];
 
+        // ========== THEME CYCLE (3 THEMES: Dark, Light, CloudPlay) ==========
+        const themes = ['dark', 'light', 'cloudplay'];
+        const themeNames = { dark: 'Dark', light: 'Light', cloudplay: 'CloudPlay ☁️' };
+        let currentThemeIndex = 0;
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.getElementById('theme-name').textContent = themeNames[theme];
+        }
+
+        window.cycleTheme = function() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            const newTheme = themes[currentThemeIndex];
+            applyTheme(newTheme);
+            showNotification(`🎨 ${themeNames[newTheme]} theme activated`);
+        };
+
         // ========== GLOBAL VARIABLES ==========
         let currentUser = null;
         let currentSongIndex = 0;
@@ -1357,7 +1415,7 @@
         }
 
         window.searchSongs = function(query) {
-            searchQuery = query;
+            searchQuery = query.toLowerCase();
             renderSongs();
         };
 
@@ -1657,13 +1715,12 @@
             }
 
             const lyricsLines = document.querySelectorAll('.lyric-line');
+            const container = document.getElementById('lyrics-container');
+            const isUserScrolling = container.hasAttribute('data-user-scrolling');
+            
             lyricsLines.forEach((line, index) => {
                 if(index === activeIndex) {
                     line.classList.add('active');
-                    // ONLY auto-scroll if the user hasn't manually scrolled recently
-                    // We use a flag to prevent forced scrolling when user is scrolling manually
-                    const container = document.getElementById('lyrics-container');
-                    const isUserScrolling = container.hasAttribute('data-user-scrolling');
                     if(!isUserScrolling) {
                         line.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
@@ -1729,16 +1786,6 @@
             `).join('');
         }
 
-        // ========== THEME FUNCTIONS ==========
-        window.toggleTheme = function() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme') || 'dark';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            showNotification(`🎨 ${newTheme} mode activated`);
-        };
-
         // ========== LOAD USER DATA ==========
         function loadUserData() {
             renderPlaylist();
@@ -1750,7 +1797,15 @@
         function init() {
             const savedTheme = localStorage.getItem('theme');
             if(savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
+                const themeIndex = themes.indexOf(savedTheme);
+                if(themeIndex !== -1) {
+                    currentThemeIndex = themeIndex;
+                    applyTheme(savedTheme);
+                } else {
+                    applyTheme('dark');
+                }
+            } else {
+                applyTheme('dark');
             }
             
             const savedUser = localStorage.getItem('currentUser');
