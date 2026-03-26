@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Vibe Music</title>
+    <title>Vibe Music | Complete Lyrics Experience</title>
     <style>
         * {
             margin: 0;
@@ -198,7 +198,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px var(--accent-glow);
         }
 
         .auth-tabs {
@@ -228,7 +227,7 @@
         }
 
         .auth-form { display: none; }
-        .auth-form.active { display: block; animation: slideInForm 0.5s ease-out; }
+        .auth-form.active { display: block; }
 
         .form-group {
             margin-bottom: 20px;
@@ -299,7 +298,6 @@
 
         #main-app {
             display: none;
-            animation: fadeInUp 0.8s ease-out;
         }
 
         .app-header {
@@ -429,6 +427,7 @@
             border: 1px solid var(--accent-primary);
             font-size: 13px;
             text-decoration: none;
+            cursor: pointer;
         }
 
         .songs-grid {
@@ -549,30 +548,52 @@
         }
 
         .lyrics-container {
-            max-height: 400px;
+            max-height: 450px;
             overflow-y: auto;
-            padding: 10px;
+            padding: 15px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Custom scrollbar for lyrics */
+        .lyrics-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .lyrics-container::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-radius: 10px;
+        }
+        .lyrics-container::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 10px;
         }
 
         .lyric-line {
-            font-size: 20px;
+            font-size: 18px;
             text-align: center;
-            padding: 18px;
+            padding: 14px 20px;
             border-radius: 25px;
-            opacity: 0.3;
-            transform: scale(0.95);
+            opacity: 0.45;
             cursor: pointer;
             color: var(--text-secondary);
+            transition: all 0.2s ease;
             margin: 8px 0;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .lyric-line:hover {
+            opacity: 0.8;
+            background: var(--bg-card-hover);
         }
 
         .lyric-line.active {
             opacity: 1;
             transform: scale(1.02);
-            color: var(--lyrics-highlight);
+            color: var(--accent-primary);
             font-weight: 700;
             background: var(--lyrics-bg);
-            box-shadow: 0 10px 25px var(--accent-glow);
+            box-shadow: 0 5px 15px var(--accent-glow);
         }
 
         .stats-section {
@@ -586,7 +607,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin: 20px 0;
         }
@@ -600,11 +621,17 @@
         }
 
         .stat-value {
-            font-size: 36px;
+            font-size: 28px;
             font-weight: 800;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
         }
 
         .artist-list {
@@ -641,6 +668,7 @@
             z-index: 1000;
             transition: all 0.3s ease;
             overflow: hidden;
+            padding: 15px;
         }
 
         .music-player.minimized {
@@ -652,23 +680,10 @@
             border-radius: 50px;
             background: var(--accent-gradient);
             cursor: pointer;
-        }
-
-        .music-player.minimized .player-info {
             padding: 10px 20px;
-            margin: 0;
         }
 
-        .music-player.minimized .now-playing-title {
-            font-size: 14px;
-            color: white;
-            max-width: 150px;
-        }
-
-        .music-player.minimized .now-playing-artist {
-            display: none;
-        }
-
+        .music-player.minimized .player-info,
         .music-player.minimized .player-controls,
         .music-player.minimized .progress-container,
         .music-player.minimized .volume-control,
@@ -676,38 +691,30 @@
             display: none;
         }
 
-        .music-player.maximized {
-            padding: 15px;
+        .music-player.minimized .now-playing-title {
+            font-size: 14px;
+            color: white;
+            display: block;
         }
 
-        .music-player.maximized .player-info {
+        .player-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            padding-right: 40px;
         }
 
-        .music-player.maximized .now-playing-title {
-            font-size: 16px;
-            color: var(--accent-primary);
+        .now-playing-title {
             font-weight: 700;
-            max-width: 60%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 16px;
         }
 
-        .music-player.maximized .now-playing-artist {
+        .now-playing-artist {
+            font-size: 13px;
             color: var(--text-secondary);
-            font-size: 14px;
-            max-width: 35%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .music-player.maximized .player-controls {
+        .player-controls {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -715,7 +722,7 @@
             margin-bottom: 12px;
         }
 
-        .music-player.maximized .control-btn {
+        .control-btn {
             background: none;
             border: none;
             color: var(--text-primary);
@@ -730,12 +737,7 @@
             justify-content: center;
         }
 
-        .music-player.maximized .control-btn:hover {
-            background: var(--accent-gradient);
-            color: white;
-        }
-
-        .music-player.maximized .control-btn.play-pause {
+        .control-btn.play-pause {
             background: var(--accent-gradient);
             color: white;
             width: 56px;
@@ -744,20 +746,20 @@
             box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .music-player.maximized .progress-container {
+        .progress-container {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 12px;
         }
 
-        .music-player.maximized .time-display {
+        .time-display {
             color: var(--text-secondary);
             font-size: 12px;
             min-width: 35px;
         }
 
-        .music-player.maximized .progress-bar {
+        .progress-bar {
             flex: 1;
             height: 5px;
             background: var(--border-color);
@@ -766,21 +768,21 @@
             overflow: hidden;
         }
 
-        .music-player.maximized .progress {
+        .progress {
             height: 100%;
             background: var(--accent-gradient);
             border-radius: 10px;
             width: 0%;
         }
 
-        .music-player.maximized .volume-control {
+        .volume-control {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
 
-        .music-player.maximized .volume-slider {
+        .volume-slider {
             width: 100px;
             height: 4px;
             background: var(--border-color);
@@ -788,14 +790,13 @@
             -webkit-appearance: none;
         }
 
-        .music-player.maximized .volume-slider::-webkit-slider-thumb {
+        .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 14px;
             height: 14px;
             background: var(--accent-gradient);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 8px var(--accent-glow);
         }
 
         .mini-toggle {
@@ -807,17 +808,6 @@
             color: var(--text-primary);
             font-size: 18px;
             cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            z-index: 1001;
-        }
-
-        .mini-toggle:hover {
-            background: var(--accent-glow);
         }
 
         .lyrics-toggle {
@@ -837,12 +827,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-        }
-
-        .lyrics-toggle.active {
-            background: var(--bg-card);
-            color: var(--accent-primary);
-            border: 2px solid var(--accent-primary);
         }
 
         .notification {
@@ -866,23 +850,16 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-gradient);
-            border-radius: 4px;
-        }
-
-        @media (max-width: 360px) {
+        @media (max-width: 600px) {
             .songs-grid {
                 grid-template-columns: 1fr;
             }
-            .music-player.maximized .volume-slider {
-                width: 60px;
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .lyric-line {
+                font-size: 16px;
+                padding: 10px 15px;
             }
         }
     </style>
@@ -895,6 +872,7 @@
     <div class="particles" id="particles"></div>
 
     <div id="app">
+        <!-- AUTH SECTION -->
         <div id="auth-section">
             <div class="auth-container">
                 <h2>VIBE MUSIC</h2>
@@ -950,6 +928,7 @@
             </div>
         </div>
 
+        <!-- MAIN APP -->
         <div id="main-app">
             <header class="app-header">
                 <div class="app-title">
@@ -957,12 +936,8 @@
                     <span class="welcome-badge" id="welcome-user"></span>
                 </div>
                 <div class="app-controls">
-                    <button class="glass-btn" onclick="toggleTheme()">
-                        <span>🎨</span> Theme
-                    </button>
-                    <button class="glass-btn" onclick="handleLogout()">
-                        <span>🚪</span> Logout
-                    </button>
+                    <button class="glass-btn" onclick="toggleTheme()">🎨 Theme</button>
+                    <button class="glass-btn" onclick="handleLogout()">🚪 Logout</button>
                 </div>
             </header>
 
@@ -991,10 +966,10 @@
 
             <div id="lyrics-section" class="lyrics-section" style="display: none;">
                 <div class="section-header">
-                    <h3 class="section-title">📝 Lyrics</h3>
+                    <h3 class="section-title">📝 Live Lyrics</h3>
                 </div>
                 <div id="lyrics-container" class="lyrics-container">
-                    <div class="no-lyrics">✨ Select a song to view lyrics ✨</div>
+                    <div style="text-align: center; padding: 40px;">✨ Select a song to view lyrics ✨</div>
                 </div>
             </div>
 
@@ -1027,20 +1002,18 @@
                 <div id="artist-ranking" class="artist-list"></div>
             </div>
 
-            <audio id="audio-player" preload="metadata" style="display: none;"></audio>
+            <audio id="audio-player" preload="metadata"></audio>
 
             <button class="lyrics-toggle" onclick="toggleLyrics()" id="lyrics-toggle-btn">
                 <span>📜</span> Show Lyrics
             </button>
 
-            <div class="music-player maximized" id="music-player">
-                <button class="mini-toggle" onclick="togglePlayerSize()" id="toggle-player-btn">🔼</button>
-                
+            <div class="music-player" id="music-player">
+                <button class="mini-toggle" onclick="togglePlayerSize()">🔼</button>
                 <div class="player-info">
                     <div class="now-playing-title" id="current-song-title">Not Playing</div>
                     <div class="now-playing-artist" id="current-song-artist"></div>
                 </div>
-                
                 <div class="player-controls">
                     <button class="control-btn" onclick="toggleShuffle()" id="shuffle-btn">🔀</button>
                     <button class="control-btn" onclick="playPrevious()">⏮️</button>
@@ -1048,7 +1021,6 @@
                     <button class="control-btn" onclick="playNext()">⏭️</button>
                     <button class="control-btn" onclick="toggleRepeat()" id="repeat-btn">🔁</button>
                 </div>
-
                 <div class="progress-container">
                     <span class="time-display" id="current-time">0:00</span>
                     <div class="progress-bar" onclick="seekTo(event)">
@@ -1056,34 +1028,16 @@
                     </div>
                     <span class="time-display" id="duration">0:00</span>
                 </div>
-
                 <div class="volume-control">
                     <span>🔊</span>
-                    <input type="range" class="volume-slider" min="0" max="100" value="70" oninput="changeVolume(this.value)" id="volume-slider">
+                    <input type="range" class="volume-slider" min="0" max="100" value="70" oninput="changeVolume(this.value)">
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            if (!particlesContainer) return;
-            
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = 15 + Math.random() * 15 + 's';
-                particle.style.width = Math.random() * 6 + 2 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.background = 'linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary))';
-                particlesContainer.appendChild(particle);
-            }
-        }
-        createParticles();
-
+        // ==================== COMPLETE SONGS WITH FULL LYRICS ====================
         const SONGS = [
             { 
                 filename: 'uptown-funk.mp3',
@@ -1091,29 +1045,33 @@
                 artist: 'Mark Ronson ft. Bruno Mars', 
                 thumbnail: 'https://img.youtube.com/vi/OPf0YbXqDm0/maxresdefault.jpg',
                 lyrics: [
-                    { time: 0, text: "This hit, that ice cold" },
-                    { time: 3, text: "Michelle Pfeiffer, that white gold" },
-                    { time: 6, text: "This one for them hood girls" },
-                    { time: 9, text: "Them good girls, straight masterpieces" },
-                    { time: 12, text: "Styling, while in, living it up in the city" },
-                    { time: 15, text: "Got Chucks on with Saint Laurent" },
-                    { time: 18, text: "Gotta kiss myself, I'm so pretty" },
-                    { time: 21, text: "I'm too hot (hot damn)" },
-                    { time: 24, text: "Called a police and a fireman" },
-                    { time: 27, text: "I'm too hot (hot damn)" },
-                    { time: 30, text: "Make a dragon wanna retire man" },
-                    { time: 33, text: "I'm too hot (hot damn)" },
-                    { time: 36, text: "Say my name you know who I am" },
-                    { time: 39, text: "I'm too hot (hot damn)" },
-                    { time: 42, text: "And my band 'bout that money, break it down" },
-                    { time: 45, text: "Girls hit your hallelujah (woo)" },
-                    { time: 48, text: "Girls hit your hallelujah (woo)" },
-                    { time: 51, text: "Girls hit your hallelujah (woo)" },
-                    { time: 54, text: "'Cause Uptown Funk gon' give it to you" },
-                    { time: 57, text: "'Cause Uptown Funk gon' give it to you" },
-                    { time: 60, text: "'Cause Uptown Funk gon' give it to you" },
-                    { time: 63, text: "Saturday night and we in the spot" },
-                    { time: 66, text: "Don't believe me, just watch (come on)" }
+                    { time: 0, text: "[Intro] Doh-doh-doh, doh-doh-doh, doh-doh" },
+                    { time: 2, text: "This hit, that ice cold / Michelle Pfeiffer, that white gold" },
+                    { time: 5, text: "This one for them hood girls / Them good girls, straight masterpieces" },
+                    { time: 8, text: "Stylin', wilin', livin' it up in the city" },
+                    { time: 11, text: "Got Chucks on with Saint Laurent / Gotta kiss myself, I'm so pretty" },
+                    { time: 14, text: "I'm too hot (Hot damn) / Call the police and the fireman" },
+                    { time: 17, text: "I'm too hot (Hot damn) / Make a dragon wanna retire, man" },
+                    { time: 20, text: "I'm too hot (Hot damn) / Say my name, you know who I am" },
+                    { time: 23, text: "I'm too hot (Hot damn) / And my band 'bout that money, break it down" },
+                    { time: 27, text: "Girls hit your hallelujah (Woo) / Girls hit your hallelujah (Woo)" },
+                    { time: 30, text: "Girls hit your hallelujah (Woo) / 'Cause uptown funk gon' give it to you" },
+                    { time: 33, text: "'Cause uptown funk gon' give it to you / Saturday night and we in the spot" },
+                    { time: 36, text: "Don't believe me, just watch / Don't believe me, just watch" },
+                    { time: 39, text: "Stop, wait a minute / Fill my cup, put some liquor in it" },
+                    { time: 42, text: "Take a sip, sign the check / Julio, get the stretch" },
+                    { time: 45, text: "Ride to Harlem, Hollywood, Jackson, Mississippi" },
+                    { time: 48, text: "If we show up, we gon' show out / Smoother than a fresh jar of Skippy" },
+                    { time: 52, text: "I'm too hot (Hot damn) / Call the police and the fireman" },
+                    { time: 55, text: "I'm too hot (Hot damn) / Make a dragon wanna retire, man" },
+                    { time: 58, text: "I'm too hot (Hot damn) / Say my name, you know who I am" },
+                    { time: 61, text: "Girls hit your hallelujah / 'Cause uptown funk gon' give it to you" },
+                    { time: 64, text: "Uptown funk you up, uptown funk you up" },
+                    { time: 67, text: "Dance, jump on it / If you sexy, then flaunt it" },
+                    { time: 70, text: "If you freaky, then own it / Don't brag about it, come show me" },
+                    { time: 73, text: "Saturday night and we in the spot / Don't believe me, just watch" },
+                    { time: 76, text: "Uptown funk you up (Woo) / Uptown funk you up (Say what?)" },
+                    { time: 79, text: "Uptown funk you up / Uptown funk you up / Aw, ow" }
                 ]
             },
             { 
@@ -1122,18 +1080,27 @@
                 artist: 'Rick Astley', 
                 thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
                 lyrics: [
-                    { time: 0, text: "We're no strangers to love" },
-                    { time: 3, text: "You know the rules and so do I" },
-                    { time: 6, text: "A full commitment's what I'm thinking of" },
-                    { time: 9, text: "You wouldn't get this from any other guy" },
-                    { time: 12, text: "I just wanna tell you how I'm feeling" },
-                    { time: 15, text: "Gotta make you understand" },
-                    { time: 18, text: "Never gonna give you up" },
-                    { time: 21, text: "Never gonna let you down" },
-                    { time: 24, text: "Never gonna run around and desert you" },
-                    { time: 27, text: "Never gonna make you cry" },
-                    { time: 30, text: "Never gonna say goodbye" },
-                    { time: 33, text: "Never gonna tell a lie and hurt you" }
+                    { time: 0, text: "We're no strangers to love / You know the rules and so do I" },
+                    { time: 4, text: "A full commitment's what I'm thinking of / You wouldn't get this from any other guy" },
+                    { time: 8, text: "I just wanna tell you how I'm feeling / Gotta make you understand" },
+                    { time: 12, text: "Never gonna give you up / Never gonna let you down" },
+                    { time: 15, text: "Never gonna run around and desert you / Never gonna make you cry" },
+                    { time: 18, text: "Never gonna say goodbye / Never gonna tell a lie and hurt you" },
+                    { time: 22, text: "We've known each other for so long / Your heart's been aching, but you're too shy to say it" },
+                    { time: 26, text: "Inside, we both know what's been going on / We know the game and we're gonna play it" },
+                    { time: 30, text: "And if you ask me how I'm feeling / Don't tell me you're too blind to see" },
+                    { time: 34, text: "Never gonna give you up / Never gonna let you down" },
+                    { time: 37, text: "Never gonna run around and desert you / Never gonna make you cry" },
+                    { time: 40, text: "Never gonna say goodbye / Never gonna tell a lie and hurt you" },
+                    { time: 44, text: "Never gonna give you up / Never gonna let you down" },
+                    { time: 47, text: "Never gonna run around and desert you / Never gonna make you cry" },
+                    { time: 50, text: "Never gonna say goodbye / Never gonna tell a lie and hurt you" },
+                    { time: 54, text: "(Ooh, give you up) / (Ooh, give you up)" },
+                    { time: 58, text: "Never gonna give, never gonna give / (Give you up)" },
+                    { time: 62, text: "We've known each other for so long / Your heart's been aching" },
+                    { time: 66, text: "Never gonna give you up / Never gonna let you down" },
+                    { time: 69, text: "Never gonna run around and desert you / Never gonna make you cry" },
+                    { time: 72, text: "Never gonna say goodbye / Never gonna tell a lie and hurt you" }
                 ]
             },
             { 
@@ -1142,22 +1109,24 @@
                 artist: 'Ed Sheeran', 
                 thumbnail: 'https://img.youtube.com/vi/hT_nvWreIhg/maxresdefault.jpg',
                 lyrics: [
-                    { time: 0, text: "The club isn't the best place to find a lover" },
-                    { time: 3, text: "So the bar is where I go" },
-                    { time: 6, text: "Me and my friends at the table doing shots" },
-                    { time: 9, text: "Drinking fast and then we talk slow" },
-                    { time: 12, text: "And you come over and start up a conversation with just me" },
-                    { time: 15, text: "And trust me I'll give it a chance now" },
-                    { time: 18, text: "Take my hand, stop, put Van The Man on the jukebox" },
-                    { time: 21, text: "And then we start to dance, and now I'm singing like" },
-                    { time: 24, text: "Girl, you know I want your love" },
-                    { time: 27, text: "Your love was handmade for somebody like me" },
-                    { time: 30, text: "Come on now, follow my lead" },
-                    { time: 33, text: "I may be crazy, don't mind me" },
-                    { time: 36, text: "Say, boy, let's not talk too much" },
-                    { time: 39, text: "Grab on my waist and put that body on me" },
-                    { time: 42, text: "Come on now, follow my lead" },
-                    { time: 45, text: "Come, come on now, follow my lead" }
+                    { time: 0, text: "A club isn't the best place to find a lover / So the bar is where I go" },
+                    { time: 4, text: "Me and my friends at the table doin' shots / Drinkin' fast and then we talk slow" },
+                    { time: 8, text: "And you come over and start up a conversation with just me / And trust me, I'll give it a chance now" },
+                    { time: 12, text: "Take my hand, stop, put Van the Man on the jukebox / And then we start to dance" },
+                    { time: 16, text: "Girl, you know I want your love / Your love was handmade for somebody like me" },
+                    { time: 20, text: "Come on now, follow my lead / I may be crazy, don't mind me" },
+                    { time: 24, text: "Say, 'Boy, let's not talk too much' / Grab on my waist and put that body on me" },
+                    { time: 28, text: "I'm in love with the shape of you / We push and pull like a magnet do" },
+                    { time: 32, text: "Although my heart is fallin' too / I'm in love with your body" },
+                    { time: 36, text: "And last night you were in my room / And now my bed sheets smell like you" },
+                    { time: 40, text: "Every day discovering something brand new / I'm in love with your body" },
+                    { time: 44, text: "Oh I, oh I, oh I, oh I / I'm in love with your body" },
+                    { time: 48, text: "One week in we let the story begin / We're goin' out on our first date" },
+                    { time: 52, text: "You and me are thrifty, so go all-you-can-eat / Fill up your bag and I fill up a plate" },
+                    { time: 56, text: "We talk for hours and hours about the sweet and the sour / And how your family is doin' okay" },
+                    { time: 60, text: "And leave and get in a taxi, and kiss in the back seat / Tell the driver make the radio play" },
+                    { time: 64, text: "Come on, be my baby, come on / Come on, be my baby, come on" },
+                    { time: 68, text: "I'm in love with the shape of you / Every day discovering something brand new" }
                 ]
             },
             { 
@@ -1166,26 +1135,21 @@
                 artist: 'Luis Fonsi ft. Daddy Yankee', 
                 thumbnail: 'https://img.youtube.com/vi/kJQP7kiw5Fk/maxresdefault.jpg',
                 lyrics: [
-                    { time: 0, text: "¡Ay!" },
-                    { time: 2, text: "Fonsi, DY" },
-                    { time: 4, text: "Oh, oh no, oh no" },
-                    { time: 6, text: "Oh, yeah" },
-                    { time: 8, text: "Diridiri, dirididi Daddy" },
-                    { time: 10, text: "Go!" },
-                    { time: 12, text: "Sí, sabes que ya llevo un rato mirándote" },
-                    { time: 15, text: "Tengo que bailar contigo hoy (DY)" },
-                    { time: 18, text: "Vi que tu mirada ya estaba llamándome" },
-                    { time: 21, text: "Muéstrame el camino que yo voy" },
-                    { time: 24, text: "Oh, tú, tú eres el imán y yo soy el metal" },
-                    { time: 27, text: "Me voy acercando y voy armando el plan" },
-                    { time: 30, text: "Solo con pensarlo se acelera el pulso" },
-                    { time: 33, text: "Ya, ya me está gustando más de lo normal" },
-                    { time: 36, text: "Todos mis sentidos van pidiendo más" },
-                    { time: 39, text: "Esto hay que tomarlo sin ningún apuro" },
-                    { time: 42, text: "Despacito" },
-                    { time: 45, text: "Quiero respirar tu cuello despacito" },
-                    { time: 48, text: "Deja que te diga cosas al oído" },
-                    { time: 51, text: "Para que te acuerdes si no estás conmigo" }
+                    { time: 0, text: "¡Ay, Fonsi! ¡DY! / Oh-oh, oh, no, oh no" },
+                    { time: 3, text: "¡Hey, yeah! / Diri-diri-diririri, Daddy, go!" },
+                    { time: 6, text: "Sí, sabes que ya llevo un rato mirándote / Tengo que bailar contigo hoy" },
+                    { time: 10, text: "Vi que tu mirada ya estaba llamándome / Muéstrame el camino que yo voy" },
+                    { time: 14, text: "Tú, tú eres el imán y yo soy el metal / Me voy acercando y voy armando el plan" },
+                    { time: 18, text: "Solo con pensarlo, se acelera el pulso / Ya, ya me está gustando más de lo normal" },
+                    { time: 22, text: "Despacito / Quiero respirar tu cuello despacito" },
+                    { time: 26, text: "Deja que te diga cosas al oído / Para que te acuerdes si no estás conmigo" },
+                    { time: 30, text: "Despacito / Quiero desnudarte a besos despacito" },
+                    { time: 34, text: "Firmar las paredes de tu laberinto / Y hacer de tu cuerpo todo un manuscrito" },
+                    { time: 38, text: "Quiero ver bailar tu pelo, quiero ser tu ritmo / Que le enseñes a mi boca" },
+                    { time: 42, text: "Pasito a pasito, suave suavecito / Nos vamo' pegando, poquito a poquito" },
+                    { time: 46, text: "Cuando tú me besas con esa destreza / Veo que eres malicia con delicadeza" },
+                    { time: 50, text: "Despacito / Vamo' a hacerlo en una playa en Puerto Rico" },
+                    { time: 54, text: "Hasta que las olas griten: '¡Ay, bendito!' / Para que mi sello se quede contigo" }
                 ]
             },
             { 
@@ -1194,22 +1158,24 @@
                 artist: 'Lady Gaga & Bradley Cooper', 
                 thumbnail: 'https://img.youtube.com/vi/pRpeEdMmmQ0/maxresdefault.jpg',
                 lyrics: [
-                    { time: 0, text: "Tell me something, girl" },
-                    { time: 3, text: "Are you happy in this modern world?" },
-                    { time: 6, text: "Or do you need more?" },
-                    { time: 9, text: "Is there something else you're searching for?" },
-                    { time: 12, text: "I'm falling" },
-                    { time: 15, text: "In all the good times I find myself" },
-                    { time: 18, text: "Longing for change" },
-                    { time: 21, text: "In the bad times I fear myself" },
-                    { time: 24, text: "I'm off the deep end, watch as I dive in" },
-                    { time: 27, text: "I'll never meet the ground" },
-                    { time: 30, text: "Crash through the surface, where they can't hurt us" },
-                    { time: 33, text: "We're far from the shallow now" }
+                    { time: 0, text: "Tell me somethin', girl / Are you happy in this modern world?" },
+                    { time: 4, text: "Or do you need more? / Is there somethin' else you're searchin' for?" },
+                    { time: 8, text: "I'm fallin' / In all the good times I find myself longin' for change" },
+                    { time: 12, text: "And in the bad times, I fear myself / Tell me something, boy" },
+                    { time: 16, text: "Aren't you tired tryna fill that void? / Or do you need more?" },
+                    { time: 20, text: "Ain't it hard keepin' it so hardcore? / I'm falling" },
+                    { time: 24, text: "In all the good times I find myself longing / For change" },
+                    { time: 28, text: "I'm off the deep end, watch as I dive in / I'll never meet the ground" },
+                    { time: 32, text: "Crash through the surface where they can't hurt us / We're far from the shallow now" },
+                    { time: 36, text: "In the sha-ha, shallow / In the sha-ha, sha-la-la-la-low" },
+                    { time: 40, text: "In the sha-ha, shallow / We're far from the shallow now" },
+                    { time: 44, text: "Oh, ha, ah, ha / I'm off the deep end, watch as I dive in" },
+                    { time: 48, text: "We're far from the shallow now" }
                 ]
             }
         ];
 
+        // ========== GLOBAL VARIABLES ==========
         let currentUser = null;
         let currentSongIndex = 0;
         let isPlaying = false;
@@ -1217,41 +1183,51 @@
         let repeatMode = false;
         let searchQuery = '';
         let showLyrics = false;
-        let lyricsUpdateInterval;
+        let lyricsUpdateInterval = null;
         let isPlayerMinimized = false;
+        let listeningTimeInterval = null;
         const audio = document.getElementById('audio-player');
 
-        window.togglePlayerSize = () => {
-            const player = document.getElementById('music-player');
-            const toggleBtn = document.getElementById('toggle-player-btn');
-            
-            isPlayerMinimized = !isPlayerMinimized;
-            
-            if (isPlayerMinimized) {
-                player.classList.remove('maximized');
-                player.classList.add('minimized');
-                toggleBtn.innerHTML = '🔽';
-            } else {
-                player.classList.remove('minimized');
-                player.classList.add('maximized');
-                toggleBtn.innerHTML = '🔼';
+        // ========== HELPER FUNCTIONS ==========
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for(let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 20 + 's';
+                p.style.animationDuration = 15 + Math.random() * 15 + 's';
+                p.style.width = Math.random() * 6 + 2 + 'px';
+                p.style.height = p.style.width;
+                container.appendChild(p);
             }
-        };
+        }
+        createParticles();
 
-        document.addEventListener('click', function(e) {
-            const player = document.getElementById('music-player');
-            if (isPlayerMinimized && player.contains(e.target) && !e.target.classList.contains('mini-toggle')) {
-                if (isPlayerMinimized) {
-                    togglePlayerSize();
-                }
-            }
-        });
+        function formatTime(seconds) {
+            if(isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
 
-        window.switchAuthTab = (tab) => {
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `✨ ${message}`;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 2500);
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // ========== AUTH FUNCTIONS ==========
+        window.switchAuthTab = function(tab) {
             document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            
-            if (tab === 'login') {
+            if(tab === 'login') {
                 document.querySelectorAll('.auth-tab')[0].classList.add('active');
                 document.getElementById('login-form').classList.add('active');
             } else {
@@ -1260,33 +1236,27 @@
             }
         };
 
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        window.handleRegister = () => {
+        window.handleRegister = function() {
             const name = document.getElementById('register-name').value.trim();
             const email = document.getElementById('register-email').value.trim();
             const password = document.getElementById('register-password').value;
             const errorEl = document.getElementById('register-error');
 
-            if (!name || !email || !password) {
+            if(!name || !email || !password) {
                 errorEl.textContent = '⚠️ All fields are required';
                 return;
             }
-
-            if (!validateEmail(email)) {
+            if(!validateEmail(email)) {
                 errorEl.textContent = '⚠️ Invalid email format';
                 return;
             }
-
-            if (password.length < 6) {
+            if(password.length < 6) {
                 errorEl.textContent = '⚠️ Password must be at least 6 characters';
                 return;
             }
 
             const users = JSON.parse(localStorage.getItem('users') || '[]');
-            if (users.find(u => u.email === email)) {
+            if(users.find(u => u.email === email)) {
                 errorEl.textContent = '⚠️ User already exists';
                 return;
             }
@@ -1297,17 +1267,16 @@
 
             currentUser = newUser;
             localStorage.setItem('currentUser', JSON.stringify(newUser));
-            
             showNotification('✨ Registration successful!');
             showMainApp();
         };
 
-        window.handleLogin = () => {
+        window.handleLogin = function() {
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
             const errorEl = document.getElementById('login-error');
 
-            if (!email || !password) {
+            if(!email || !password) {
                 errorEl.textContent = '⚠️ All fields are required';
                 return;
             }
@@ -1315,25 +1284,25 @@
             const users = JSON.parse(localStorage.getItem('users') || '[]');
             const user = users.find(u => u.email === email && u.password === password);
 
-            if (!user) {
+            if(!user) {
                 errorEl.textContent = '⚠️ Invalid email or password';
                 return;
             }
 
             currentUser = user;
             localStorage.setItem('currentUser', JSON.stringify(user));
-            
             showNotification(`🎉 Welcome back, ${user.name}!`);
             showMainApp();
         };
 
-        window.handleLogout = () => {
+        window.handleLogout = function() {
             currentUser = null;
             localStorage.removeItem('currentUser');
             document.getElementById('auth-section').style.display = 'flex';
             document.getElementById('main-app').style.display = 'none';
             audio.pause();
             isPlaying = false;
+            if(listeningTimeInterval) clearInterval(listeningTimeInterval);
             showNotification('👋 Logged out successfully!');
         };
 
@@ -1341,12 +1310,22 @@
             document.getElementById('auth-section').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
             document.getElementById('welcome-user').textContent = `Welcome, ${currentUser.name}! ✨`;
-            
             loadUserData();
             renderSongs();
             updateStats();
+            
+            if(listeningTimeInterval) clearInterval(listeningTimeInterval);
+            listeningTimeInterval = setInterval(() => {
+                if(currentUser && isPlaying) {
+                    const stats = JSON.parse(localStorage.getItem(`stats_${currentUser.email}`) || '{"totalListens":0,"artistPlays":{},"listeningTime":0}');
+                    stats.listeningTime++;
+                    localStorage.setItem(`stats_${currentUser.email}`, JSON.stringify(stats));
+                    updateStats();
+                }
+            }, 1000);
         }
 
+        // ========== RENDER FUNCTIONS ==========
         function renderSongs() {
             const container = document.getElementById('songs-container');
             const filteredSongs = SONGS.filter(song => 
@@ -1354,70 +1333,68 @@
                 song.artist.toLowerCase().includes(searchQuery.toLowerCase())
             );
 
-            if (filteredSongs.length === 0) {
-                container.innerHTML = '<div class="no-lyrics">🔍 No songs found</div>';
+            if(filteredSongs.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">🔍 No songs found</div>';
                 return;
             }
 
-            container.innerHTML = filteredSongs.map((song, index) => {
+            container.innerHTML = filteredSongs.map((song) => {
                 const originalIndex = SONGS.findIndex(s => s.filename === song.filename);
                 return `
-                    <div class="song-card ${originalIndex === currentSongIndex && isPlaying ? 'playing' : ''}" data-song-index="${originalIndex}" onclick="playSong(${originalIndex})">
+                    <div class="song-card ${originalIndex === currentSongIndex && isPlaying ? 'playing' : ''}" onclick="playSong(${originalIndex})">
                         <div class="song-thumbnail" style="background-image: url('${song.thumbnail}')">
-                            <div class="play-overlay">
-                                <span>▶️</span>
-                            </div>
+                            <div class="play-overlay"><span>▶️</span></div>
                         </div>
                         <div class="song-title">${song.title}</div>
                         <div class="song-artist">${song.artist}</div>
                         <div class="song-actions">
-                            <button class="song-btn" onclick="event.stopPropagation(); addToPlaylist(${originalIndex})">Add</button>
-                            <button class="song-btn secondary" onclick="event.stopPropagation(); toggleOffline(${originalIndex})">Save</button>
+                            <button class="song-btn" onclick="event.stopPropagation(); addToPlaylist(${originalIndex})">➕ Add</button>
+                            <button class="song-btn secondary" onclick="event.stopPropagation(); toggleOffline(${originalIndex})">💾 Save</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        window.searchSongs = (query) => {
+        window.searchSongs = function(query) {
             searchQuery = query;
             renderSongs();
         };
 
-        window.showAllSongs = () => {
+        window.showAllSongs = function() {
             searchQuery = '';
             document.getElementById('search-input').value = '';
             renderSongs();
             showNotification('Showing all songs');
         };
 
-        window.addToPlaylist = (songIndex) => {
+        // ========== PLAYLIST FUNCTIONS ==========
+        window.addToPlaylist = function(songIndex) {
             const playlist = JSON.parse(localStorage.getItem(`playlist_${currentUser.email}`) || '[]');
-            
-            if (!playlist.includes(songIndex)) {
+            if(!playlist.includes(songIndex)) {
                 playlist.push(songIndex);
                 localStorage.setItem(`playlist_${currentUser.email}`, JSON.stringify(playlist));
                 renderPlaylist();
-                showNotification('➕ Song added to playlist!');
+                showNotification('➕ Added to playlist!');
             } else {
-                showNotification('⚠️ Song already in playlist!');
+                showNotification('⚠️ Already in playlist!');
             }
         };
 
-        window.removeFromPlaylist = (songIndex) => {
-            const playlist = JSON.parse(localStorage.getItem(`playlist_${currentUser.email}`) || '[]');
-            const updatedPlaylist = playlist.filter(index => index !== songIndex);
-            localStorage.setItem(`playlist_${currentUser.email}`, JSON.stringify(updatedPlaylist));
+        window.removeFromPlaylist = function(songIndex) {
+            let playlist = JSON.parse(localStorage.getItem(`playlist_${currentUser.email}`) || '[]');
+            playlist = playlist.filter(index => index !== songIndex);
+            localStorage.setItem(`playlist_${currentUser.email}`, JSON.stringify(playlist));
             renderPlaylist();
-            showNotification('➖ Song removed from playlist!');
+            showNotification('➖ Removed from playlist!');
         };
 
         function renderPlaylist() {
             const container = document.getElementById('playlist-container');
             const playlist = JSON.parse(localStorage.getItem(`playlist_${currentUser.email}`) || '[]');
             
-            if (playlist.length === 0) {
-                container.innerHTML = '<div class="no-lyrics">✨ Your playlist is empty ✨</div>';
+            if(playlist.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">✨ Your playlist is empty ✨</div>';
                 return;
             }
 
@@ -1426,27 +1403,25 @@
                 return `
                     <div class="song-card ${songIndex === currentSongIndex && isPlaying ? 'playing' : ''}" onclick="playSong(${songIndex})">
                         <div class="song-thumbnail" style="background-image: url('${song.thumbnail}')">
-                            <div class="play-overlay">
-                                <span>▶️</span>
-                            </div>
+                            <div class="play-overlay"><span>▶️</span></div>
                         </div>
                         <div class="song-title">${song.title}</div>
                         <div class="song-artist">${song.artist}</div>
-                        <button class="song-btn" onclick="event.stopPropagation(); removeFromPlaylist(${songIndex})">Remove</button>
+                        <button class="song-btn" onclick="event.stopPropagation(); removeFromPlaylist(${songIndex})">❌ Remove</button>
                     </div>
                 `;
             }).join('');
         }
 
-        window.showAllPlaylist = () => {
+        window.showAllPlaylist = function() {
             const playlist = JSON.parse(localStorage.getItem(`playlist_${currentUser.email}`) || '[]');
             showNotification(playlist.length ? `You have ${playlist.length} songs` : 'Playlist empty');
         };
 
-        window.toggleOffline = (songIndex) => {
+        // ========== OFFLINE FUNCTIONS ==========
+        window.toggleOffline = function(songIndex) {
             const offlineSongs = JSON.parse(localStorage.getItem(`offline_${currentUser.email}`) || '[]');
-            
-            if (offlineSongs.includes(songIndex)) {
+            if(offlineSongs.includes(songIndex)) {
                 const updated = offlineSongs.filter(i => i !== songIndex);
                 localStorage.setItem(`offline_${currentUser.email}`, JSON.stringify(updated));
                 showNotification('📴 Removed from offline!');
@@ -1455,7 +1430,6 @@
                 localStorage.setItem(`offline_${currentUser.email}`, JSON.stringify(offlineSongs));
                 showNotification('📲 Saved offline!');
             }
-            
             renderOfflineSongs();
         };
 
@@ -1463,8 +1437,8 @@
             const container = document.getElementById('offline-container');
             const offlineSongs = JSON.parse(localStorage.getItem(`offline_${currentUser.email}`) || '[]');
             
-            if (offlineSongs.length === 0) {
-                container.innerHTML = '<div class="no-lyrics">✨ No songs saved offline ✨</div>';
+            if(offlineSongs.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">✨ No songs saved offline ✨</div>';
                 return;
             }
 
@@ -1473,25 +1447,24 @@
                 return `
                     <div class="song-card ${songIndex === currentSongIndex && isPlaying ? 'playing' : ''}" onclick="playSong(${songIndex})">
                         <div class="song-thumbnail" style="background-image: url('${song.thumbnail}')">
-                            <div class="play-overlay">
-                                <span>▶️</span>
-                            </div>
+                            <div class="play-overlay"><span>▶️</span></div>
                         </div>
                         <div class="song-title">${song.title}</div>
                         <div class="song-artist">${song.artist}</div>
-                        <button class="song-btn secondary" onclick="event.stopPropagation(); toggleOffline(${songIndex})">Remove</button>
+                        <button class="song-btn secondary" onclick="event.stopPropagation(); toggleOffline(${songIndex})">🗑️ Remove</button>
                     </div>
                 `;
             }).join('');
         }
 
-        window.showAllOffline = () => {
+        window.showAllOffline = function() {
             const offline = JSON.parse(localStorage.getItem(`offline_${currentUser.email}`) || '[]');
             showNotification(offline.length ? `${offline.length} offline songs` : 'No offline songs');
         };
 
-        window.playSong = (index) => {
-            if (!currentUser) return;
+        // ========== PLAYER FUNCTIONS ==========
+        window.playSong = function(index) {
+            if(!currentUser) return;
             
             currentSongIndex = index;
             const song = SONGS[index];
@@ -1505,9 +1478,7 @@
                 document.getElementById('current-song-title').textContent = song.title;
                 document.getElementById('current-song-artist').textContent = song.artist;
                 
-                document.querySelector('.music-player.minimized .now-playing-title').textContent = song.title;
-                
-                if (showLyrics) {
+                if(showLyrics) {
                     renderLyrics();
                     startLyricsSync();
                 }
@@ -1518,15 +1489,15 @@
                 
                 showNotification(`🎵 Now playing: ${song.title}`);
                 updateListeningStats(index);
-            }).catch(error => {
+            }).catch(() => {
                 showNotification('⚠️ Please add MP3 files to music/ folder');
             });
         };
 
-        window.togglePlay = () => {
-            if (!audio.src) return;
+        window.togglePlay = function() {
+            if(!audio.src) return;
             
-            if (isPlaying) {
+            if(isPlaying) {
                 audio.pause();
                 isPlaying = false;
                 document.getElementById('play-pause-btn').innerHTML = '▶️';
@@ -1539,63 +1510,77 @@
             }
         };
 
-        window.playNext = () => {
+        window.playNext = function() {
             let nextIndex;
-            if (shuffleMode) {
+            if(shuffleMode) {
                 do {
                     nextIndex = Math.floor(Math.random() * SONGS.length);
-                } while (nextIndex === currentSongIndex && SONGS.length > 1);
+                } while(nextIndex === currentSongIndex && SONGS.length > 1);
             } else {
                 nextIndex = (currentSongIndex + 1) % SONGS.length;
             }
             playSong(nextIndex);
         };
 
-        window.playPrevious = () => {
+        window.playPrevious = function() {
             let prevIndex = (currentSongIndex - 1 + SONGS.length) % SONGS.length;
             playSong(prevIndex);
         };
 
-        window.toggleShuffle = () => {
+        window.toggleShuffle = function() {
             shuffleMode = !shuffleMode;
             const btn = document.getElementById('shuffle-btn');
-            btn.style.color = shuffleMode ? 'var(--accent-primary)' : '';
-            btn.style.transform = shuffleMode ? 'scale(1.1)' : 'scale(1)';
+            btn.style.opacity = shuffleMode ? '1' : '0.6';
             showNotification(`🔀 Shuffle ${shuffleMode ? 'ON' : 'OFF'}`);
         };
 
-        window.toggleRepeat = () => {
+        window.toggleRepeat = function() {
             repeatMode = !repeatMode;
             const btn = document.getElementById('repeat-btn');
-            btn.style.color = repeatMode ? 'var(--accent-primary)' : '';
-            btn.style.transform = repeatMode ? 'scale(1.1)' : 'scale(1)';
+            btn.style.opacity = repeatMode ? '1' : '0.6';
             showNotification(`🔁 Repeat ${repeatMode ? 'ON' : 'OFF'}`);
         };
 
-        window.changeVolume = (value) => {
+        window.changeVolume = function(value) {
             audio.volume = value / 100;
         };
 
-        window.seekTo = (e) => {
-            if (!audio.duration) return;
-            
-            const progressBar = e.currentTarget;
-            const rect = progressBar.getBoundingClientRect();
+        window.seekTo = function(e) {
+            if(!audio.duration) return;
+            const rect = e.currentTarget.getBoundingClientRect();
             const clickPosition = (e.clientX - rect.left) / rect.width;
             audio.currentTime = clickPosition * audio.duration;
         };
 
+        window.togglePlayerSize = function() {
+            const player = document.getElementById('music-player');
+            isPlayerMinimized = !isPlayerMinimized;
+            if(isPlayerMinimized) {
+                player.classList.add('minimized');
+            } else {
+                player.classList.remove('minimized');
+            }
+        };
+
+        document.addEventListener('click', function(e) {
+            const player = document.getElementById('music-player');
+            if(isPlayerMinimized && player.contains(e.target) && !e.target.classList.contains('mini-toggle')) {
+                togglePlayerSize();
+            }
+        });
+
         audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
+            if(audio.duration) {
                 const progress = (audio.currentTime / audio.duration) * 100;
                 document.getElementById('progress-bar').style.width = `${progress}%`;
                 document.getElementById('current-time').textContent = formatTime(audio.currentTime);
                 document.getElementById('duration').textContent = formatTime(audio.duration);
             }
+            if(showLyrics && isPlaying) updateCurrentLyric();
         });
 
         audio.addEventListener('ended', () => {
-            if (repeatMode) {
+            if(repeatMode) {
                 audio.currentTime = 0;
                 audio.play();
             } else {
@@ -1603,35 +1588,21 @@
             }
         });
 
-        audio.addEventListener('loadedmetadata', () => {
-            document.getElementById('duration').textContent = formatTime(audio.duration);
-        });
-
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return '0:00';
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        window.toggleLyrics = () => {
+        // ========== LYRICS FUNCTIONS (SCROLLABLE) ==========
+        window.toggleLyrics = function() {
             const lyricsSection = document.getElementById('lyrics-section');
             const lyricsBtn = document.getElementById('lyrics-toggle-btn');
             
             showLyrics = !showLyrics;
             
-            if (showLyrics) {
+            if(showLyrics) {
                 lyricsSection.style.display = 'block';
                 lyricsBtn.innerHTML = '<span>📜</span> Hide Lyrics';
-                lyricsBtn.classList.add('active');
                 renderLyrics();
-                if (isPlaying) {
-                    startLyricsSync();
-                }
+                if(isPlaying) startLyricsSync();
             } else {
                 lyricsSection.style.display = 'none';
                 lyricsBtn.innerHTML = '<span>📜</span> Show Lyrics';
-                lyricsBtn.classList.remove('active');
                 stopLyricsSync();
             }
         };
@@ -1640,68 +1611,86 @@
             const container = document.getElementById('lyrics-container');
             const currentSong = SONGS[currentSongIndex];
             
-            if (!currentSong.lyrics || currentSong.lyrics.length === 0) {
-                container.innerHTML = '<div class="no-lyrics">✨ No lyrics available ✨</div>';
+            if(!currentSong.lyrics || currentSong.lyrics.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:40px;">✨ No lyrics available ✨</div>';
                 return;
             }
 
             container.innerHTML = currentSong.lyrics.map((lyric, index) => `
-                <div class="lyric-line" data-time="${lyric.time}" onclick="seekToLyric(${lyric.time})">
+                <div class="lyric-line" data-time="${lyric.time}" data-index="${index}" onclick="seekToLyric(${lyric.time})">
                     ${lyric.text}
                 </div>
             `).join('');
         }
 
-        window.seekToLyric = (time) => {
+        window.seekToLyric = function(time) {
             audio.currentTime = time;
-            if (!isPlaying) {
-                audio.play();
-            }
+            if(!isPlaying) togglePlay();
         };
 
         function startLyricsSync() {
             stopLyricsSync();
-            lyricsUpdateInterval = setInterval(updateCurrentLyric, 100);
+            lyricsUpdateInterval = setInterval(updateCurrentLyric, 150);
         }
 
         function stopLyricsSync() {
-            if (lyricsUpdateInterval) {
+            if(lyricsUpdateInterval) {
                 clearInterval(lyricsUpdateInterval);
+                lyricsUpdateInterval = null;
             }
         }
 
         function updateCurrentLyric() {
-            if (!audio.duration || !isPlaying || !showLyrics) return;
+            if(!audio.duration || !isPlaying || !showLyrics) return;
 
             const currentTime = audio.currentTime;
             const currentSong = SONGS[currentSongIndex];
             
-            if (!currentSong.lyrics) return;
+            if(!currentSong.lyrics) return;
 
             let activeIndex = -1;
-            for (let i = currentSong.lyrics.length - 1; i >= 0; i--) {
-                if (currentTime >= currentSong.lyrics[i].time) {
+            for(let i = currentSong.lyrics.length - 1; i >= 0; i--) {
+                if(currentTime >= currentSong.lyrics[i].time) {
                     activeIndex = i;
                     break;
                 }
             }
 
-            document.querySelectorAll('.lyric-line').forEach((line, index) => {
-                if (index === activeIndex) {
+            const lyricsLines = document.querySelectorAll('.lyric-line');
+            lyricsLines.forEach((line, index) => {
+                if(index === activeIndex) {
                     line.classList.add('active');
-                    line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // ONLY auto-scroll if the user hasn't manually scrolled recently
+                    // We use a flag to prevent forced scrolling when user is scrolling manually
+                    const container = document.getElementById('lyrics-container');
+                    const isUserScrolling = container.hasAttribute('data-user-scrolling');
+                    if(!isUserScrolling) {
+                        line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 } else {
                     line.classList.remove('active');
                 }
             });
         }
 
+        // Allow user to scroll freely without auto-scroll interference
+        const lyricsContainer = document.getElementById('lyrics-container');
+        let scrollTimeout;
+        if(lyricsContainer) {
+            lyricsContainer.addEventListener('scroll', function() {
+                this.setAttribute('data-user-scrolling', 'true');
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    this.removeAttribute('data-user-scrolling');
+                }, 2000);
+            });
+        }
+
+        // ========== STATS FUNCTIONS ==========
         function updateListeningStats(songIndex) {
             const stats = JSON.parse(localStorage.getItem(`stats_${currentUser.email}`) || '{"totalListens":0,"artistPlays":{},"listeningTime":0}');
-            
             stats.totalListens++;
             stats.artistPlays[SONGS[songIndex].artist] = (stats.artistPlays[SONGS[songIndex].artist] || 0) + 1;
-            
             localStorage.setItem(`stats_${currentUser.email}`, JSON.stringify(stats));
             updateStats();
         }
@@ -1717,7 +1706,7 @@
             let mostPlayed = '-';
             let maxPlays = 0;
             Object.entries(stats.artistPlays).forEach(([artist, plays]) => {
-                if (plays > maxPlays) {
+                if(plays > maxPlays) {
                     maxPlays = plays;
                     mostPlayed = artist;
                 }
@@ -1725,71 +1714,50 @@
             document.getElementById('most-played-artist').textContent = mostPlayed;
             
             const rankingEl = document.getElementById('artist-ranking');
-            const sortedArtists = Object.entries(stats.artistPlays)
-                .sort((a, b) => b[1] - a[1]);
+            const sortedArtists = Object.entries(stats.artistPlays).sort((a, b) => b[1] - a[1]);
             
-            if (sortedArtists.length === 0) {
-                rankingEl.innerHTML = '<div class="no-lyrics">✨ No stats available yet ✨</div>';
+            if(sortedArtists.length === 0) {
+                rankingEl.innerHTML = '<div style="text-align:center;padding:20px;">✨ No stats available yet ✨</div>';
                 return;
             }
 
-            rankingEl.innerHTML = sortedArtists
-                .map(([artist, plays]) => `
-                    <div class="artist-item">
-                        <span>🎤 ${artist}</span>
-                        <span>${plays} plays</span>
-                    </div>
-                `).join('');
+            rankingEl.innerHTML = sortedArtists.map(([artist, plays]) => `
+                <div class="artist-item">
+                    <span>🎤 ${artist}</span>
+                    <span>${plays} plays</span>
+                </div>
+            `).join('');
         }
 
-        window.toggleTheme = () => {
+        // ========== THEME FUNCTIONS ==========
+        window.toggleTheme = function() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme') || 'dark';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             showNotification(`🎨 ${newTheme} mode activated`);
         };
 
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `<span>✨</span> ${message}`;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 2500);
-        }
-
+        // ========== LOAD USER DATA ==========
         function loadUserData() {
             renderPlaylist();
             renderOfflineSongs();
             updateStats();
         }
 
+        // ========== INITIALIZATION ==========
         function init() {
             const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
+            if(savedTheme) {
                 document.documentElement.setAttribute('data-theme', savedTheme);
             }
             
             const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
+            if(savedUser) {
                 currentUser = JSON.parse(savedUser);
                 showMainApp();
             }
-            
-            setInterval(() => {
-                if (currentUser && isPlaying) {
-                    const stats = JSON.parse(localStorage.getItem(`stats_${currentUser.email}`) || '{"totalListens":0,"artistPlays":{},"listeningTime":0}');
-                    stats.listeningTime++;
-                    localStorage.setItem(`stats_${currentUser.email}`, JSON.stringify(stats));
-                    updateStats();
-                }
-            }, 1000);
             
             audio.volume = 0.7;
         }
@@ -1798,4 +1766,3 @@
     </script>
 </body>
 </html>
-
