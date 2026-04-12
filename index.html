@@ -13,7 +13,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* DARK THEME (Default) */
         :root {
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
@@ -38,7 +37,6 @@
             --header-gradient: linear-gradient(135deg, #8a2be2, #4a00e0);
         }
 
-        /* LIGHT THEME */
         [data-theme="light"] {
             --bg-primary: #f0f2f5;
             --bg-secondary: #ffffff;
@@ -63,7 +61,6 @@
             --header-gradient: linear-gradient(135deg, #8a2be2, #6f42c1);
         }
 
-/* CLOUDPLAY PURPLE NEON THEME */
 [data-theme="cloudplay"] {
     --bg-primary: #1a0033;
     --bg-secondary: #2a0050;
@@ -912,7 +909,6 @@
     <div class="particles" id="particles"></div>
 
     <div id="app">
-        <!-- AUTH SECTION -->
         <div id="auth-section">
             <div class="auth-container">
                 <h2>VIBE MUSIC</h2>
@@ -968,7 +964,6 @@
             </div>
         </div>
 
-        <!-- MAIN APP -->
         <div id="main-app">
             <header class="app-header">
                 <div class="app-title">
@@ -1077,7 +1072,6 @@
     </div>
 
     <script>
-        // ==================== COMPLETE SONGS WITH FULL LYRICS ====================
         const SONGS = [
             { 
                 filename: 'uptown-funk.mp3',
@@ -1215,7 +1209,6 @@
             }
         ];
 
-        // ========== THEME CYCLE (3 THEMES: Dark, Light, CloudPlay) ==========
         const themes = ['dark', 'light', 'cloudplay'];
         const themeNames = { dark: 'Dark', light: 'Light', cloudplay: 'CloudPlay ☁️' };
         let currentThemeIndex = 0;
@@ -1233,7 +1226,6 @@
             showNotification(`🎨 ${themeNames[newTheme]} theme activated`);
         };
 
-        // ========== GLOBAL VARIABLES ==========
         let currentUser = null;
         let currentSongIndex = 0;
         let isPlaying = false;
@@ -1246,7 +1238,6 @@
         let listeningTimeInterval = null;
         const audio = document.getElementById('audio-player');
 
-        // ========== HELPER FUNCTIONS ==========
         function createParticles() {
             const container = document.getElementById('particles');
             for(let i = 0; i < 30; i++) {
@@ -1281,7 +1272,6 @@
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
 
-        // ========== AUTH FUNCTIONS ==========
         window.switchAuthTab = function(tab) {
             document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
@@ -1383,7 +1373,6 @@
             }, 1000);
         }
 
-        // ========== RENDER FUNCTIONS ==========
         function renderSongs() {
             const container = document.getElementById('songs-container');
             const filteredSongs = SONGS.filter(song => 
@@ -1426,7 +1415,6 @@
             showNotification('Showing all songs');
         };
 
-        // ========== PLAYLIST FUNCTIONS ==========
         window.addToPlaylist = function(songIndex) {
             const playlist = JSON.parse(localStorage.getItem(`playlist_${currentUser.email}`) || '[]');
             if(!playlist.includes(songIndex)) {
@@ -1476,7 +1464,6 @@
             showNotification(playlist.length ? `You have ${playlist.length} songs` : 'Playlist empty');
         };
 
-        // ========== OFFLINE FUNCTIONS ==========
         window.toggleOffline = function(songIndex) {
             const offlineSongs = JSON.parse(localStorage.getItem(`offline_${currentUser.email}`) || '[]');
             if(offlineSongs.includes(songIndex)) {
@@ -1520,7 +1507,6 @@
             showNotification(offline.length ? `${offline.length} offline songs` : 'No offline songs');
         };
 
-        // ========== PLAYER FUNCTIONS ==========
         window.playSong = function(index) {
             if(!currentUser) return;
             
@@ -1646,7 +1632,6 @@
             }
         });
 
-        // ========== LYRICS FUNCTIONS (SCROLLABLE) ==========
         window.toggleLyrics = function() {
             const lyricsSection = document.getElementById('lyrics-section');
             const lyricsBtn = document.getElementById('lyrics-toggle-btn');
@@ -1730,7 +1715,6 @@
             });
         }
 
-        // Allow user to scroll freely without auto-scroll interference
         const lyricsContainer = document.getElementById('lyrics-container');
         let scrollTimeout;
         if(lyricsContainer) {
@@ -1743,7 +1727,6 @@
             });
         }
 
-        // ========== STATS FUNCTIONS ==========
         function updateListeningStats(songIndex) {
             const stats = JSON.parse(localStorage.getItem(`stats_${currentUser.email}`) || '{"totalListens":0,"artistPlays":{},"listeningTime":0}');
             stats.totalListens++;
@@ -1786,14 +1769,12 @@
             `).join('');
         }
 
-        // ========== LOAD USER DATA ==========
         function loadUserData() {
             renderPlaylist();
             renderOfflineSongs();
             updateStats();
         }
 
-        // ========== INITIALIZATION ==========
         function init() {
             const savedTheme = localStorage.getItem('theme');
             if(savedTheme) {
